@@ -1,4 +1,4 @@
-function F = diff(F, n, dim)
+function F = diff_cheb(F, n, dim)
 %DIFF   Differentiation of a CHEBFUN.
 %   DIFF(F), when F is a column CHEBFUN, computes a column CHEBFUN whose columns
 %   are the derivatives of the corresponding columns in F.  At discontinuities,
@@ -41,7 +41,7 @@ else
     if ( ~isnumeric(n) )
         if ( isa(n, 'chebfun') )
             error('CHEBFUN:CHEBFUN:diff:n', ...
-                'diff(F,G) no longer implemented.');
+                'diff_cheb(F,G) no longer implemented.');
         end
         error('CHEBFUN:CHEBFUN:diff:n', ...
             'Second argument must be an integer.');
@@ -78,7 +78,7 @@ function f = diffFiniteDim(f, n)
 if ( numel(f) == 1 )
     % Array-valued CHEBFUN case:
     for k = 1:numel(f.funs)
-        f.funs{k} = diff(f.funs{k}, n, 2);
+        f.funs{k} = diff_cheb(f.funs{k}, n, 2);
     end
 else
     % Quasimatrix case:
@@ -117,7 +117,7 @@ if ( ~pref.enableDeltaFunctions )
     
     % Differentiate each FUN in turn:
     for k = 1:numFuns
-        funs{k} = diff(funs{k}, n);
+        funs{k} = diff_cheb(funs{k}, n);
     end
   
 else
@@ -133,7 +133,7 @@ else
         infVals = inf * deltaMag;
         % Differentiate each FUN in turn:
         for k = 1:numFuns
-            funs{k} = diff(funs{k});
+            funs{k} = diff_cheb(funs{k});
             % If there is a delta function at the join, recreate the FUN using the
             % DELTAFUN constructor:
             funs{k} = makeDeltaFun(funs{k}, deltaMag(k:k+1,:));
